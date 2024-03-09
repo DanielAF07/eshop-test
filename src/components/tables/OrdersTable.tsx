@@ -7,21 +7,17 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { RiExternalLinkLine } from 'react-icons/ri'
-import { apiClient } from '@/config/axiosClient'
-import { Order } from '@/interfaces/Order'
-import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-
-const getOrders = async () => {
-  const response = await apiClient.get('/orders')
-  return response.data.orders
-}
+import { useOrdersStore } from '@/stores/OrdersStore'
+import { useEffect } from 'react'
 
 export function OrdersTable () {
-  const { isPending, data: orders, error } = useQuery<Order[], Error>({
-    queryKey: ['orders'],
-    queryFn: getOrders
-  })
+  const orders = useOrdersStore(state => state.orders)
+  const getOrders = useOrdersStore(state => state.getOrders)
+
+  useEffect(() => {
+    if (orders.length === 0) getOrders()
+  }, [])
 
   if (orders === undefined) return null
   return (

@@ -10,11 +10,16 @@ import {
 import { Order } from '@/interfaces/Order'
 
 interface Props {
-  order: Order
+  order: Order | null
 }
 
 export function OrderTable ({ order }: Props) {
   if (!order) return <div>Loading...</div>
+  const getTotal = () => {
+    return order.items.reduce((acc, item) => {
+      return acc + Number(item.quantity) * Number(item.price)
+    }, 0)
+  }
   return (
     <Table>
       {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
@@ -41,7 +46,7 @@ export function OrderTable ({ order }: Props) {
       <TableFooter>
         <TableRow>
           <TableCell colSpan={4}>Total</TableCell>
-          <TableCell className='text-right'>$2,500.00</TableCell>
+          <TableCell className='text-right'>{getTotal()}</TableCell>
         </TableRow>
       </TableFooter>
     </Table>

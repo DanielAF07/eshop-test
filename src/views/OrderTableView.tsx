@@ -2,25 +2,31 @@ import Title from '@/components/common/Title'
 import AddProductModal from '@/components/modals/AddProductModal'
 import { OrderTable } from '@/components/tables/OrderTable'
 import { Button } from '@/components/ui/button'
-import { apiClient } from '@/config/axiosClient'
-import { Order } from '@/interfaces/Order'
-import { useQuery } from '@tanstack/react-query'
+import { useOrdersStore } from '@/stores/OrdersStore'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { FaChevronLeft } from 'react-icons/fa'
-
-const getOrder = async (id: string | string[] | undefined) => {
-  if (!id) throw new Error('No id provided')
-  const response = await apiClient.get(`/orders/${id}`)
-  return response.data.order
-}
 
 const OrderTableView = () => {
   const router = useRouter()
   const { id } = router.query
-  const { data: order, error } = useQuery<Order, Error>({
-    queryKey: ['order', id],
-    queryFn: () => getOrder(id)
-  })
+  const order = useOrdersStore(state => state.order)
+  const getOrder = useOrdersStore(state => state.getOrder)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!id) return
+    const fetch = async () => {
+      try {
+        await getOrder(id as string)
+      } catch (error) {
+        console.error('Error getting order', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetch()
+  }, [id])
 
   return (
     <main className='container flex flex-col gap-12 mt-12'>
@@ -29,11 +35,16 @@ const OrderTableView = () => {
           <FaChevronLeft />
         </Button>
       </div>
-      <Title>Orden {order?.number || ''}</Title>
-      <div className='flex justify-end'>
-        <AddProductModal />
-      </div>
-      {order && <OrderTable order={order} />}
+      {loading && <p>Loading...</p>}
+      {!loading && (
+        <>
+          <Title>Orden {order?.number || ''}</Title>
+          <div className='flex justify-end'>
+            <AddProductModal />
+          </div>
+          <OrderTable order={order} />
+        </>
+      )}
     </main>
   )
 }
