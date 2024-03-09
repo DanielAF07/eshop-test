@@ -1,5 +1,5 @@
 import { apiClient } from '@/config/axiosClient'
-import { Order } from '@/interfaces/Order'
+import { Item, Order } from '@/interfaces/Order'
 import { create } from 'zustand'
 
 interface OrderState {
@@ -10,6 +10,7 @@ interface OrderState {
 interface OrderStoreActions {
   getOrders: () => Promise<void>,
   getOrder: (id: string) => Promise<void>
+  addProduct: (item: Item) => Promise<void>
 }
 
 type OrderStore = OrderState & OrderStoreActions
@@ -29,5 +30,16 @@ export const useOrdersStore = create<OrderStore>()((set) => ({
   getOrder: async (id: string) => {
     const response = await apiClient.get(`/orders/${id}`)
     set({ order: response.data.order })
+  },
+  addProduct: async (item: Item) => {
+    set(state => ({
+      order: {
+        ...state.order!,
+        items: [
+          ...state.order!.items,
+          item
+        ]
+      }
+    }))
   }
 }))
