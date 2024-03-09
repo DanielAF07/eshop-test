@@ -10,6 +10,7 @@ import { RiExternalLinkLine } from 'react-icons/ri'
 import Link from 'next/link'
 import { useOrdersStore } from '@/stores/OrdersStore'
 import { useEffect } from 'react'
+import formatNumber from '@/helpers/formatNumber'
 
 export function OrdersTable () {
   const orders = useOrdersStore(state => state.orders)
@@ -39,7 +40,7 @@ export function OrdersTable () {
             <TableCell>{order.items.length}</TableCell>
             <TableCell className='capitalize'>{order.fulfillmentStatus.ecartapi}</TableCell>
             <TableCell className='capitalize'>{order.status.ecartapi}</TableCell>
-            <TableCell className='text-right'>{order.totals.total}</TableCell>
+            <TableCell className='text-right'>${formatNumber(order.totals.total)}</TableCell>
             <TableCell className='text-right'>
               <Link className='p-1' href={`/orders/${order.id}`}>
                 <RiExternalLinkLine size={24} />
