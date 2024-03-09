@@ -8,18 +8,22 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { Order } from '@/interfaces/Order'
+import { useCallback } from 'react'
 
 interface Props {
   order: Order | null
 }
 
 export function OrderTable ({ order }: Props) {
-  if (!order) return <div>Loading...</div>
-  const getTotal = () => {
-    return order.items.reduce((acc, item) => {
+  // Callback to calculate the total of the order
+  const getTotal = useCallback(() => {
+    return order?.items.reduce((acc, item) => {
       return acc + Number(item.quantity) * Number(item.price)
     }, 0)
-  }
+  }, [order])
+
+  if (!order) return <div>Loading...</div>
+
   return (
     <Table>
       {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
