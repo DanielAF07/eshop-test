@@ -89,30 +89,30 @@ export interface Status {
 
 export interface Item {
   id: string;
-  variantId: null;
-  productId: null;
-  offerId: null;
-  inventoryId: null;
+  variantId?: null;
+  productId?: null;
+  offerId?: null;
+  inventoryId?: null;
   sku: null;
-  productType: null;
-  fulfillment: Fulfillment;
+  productType?: null;
+  fulfillment?: Fulfillment;
   name: string;
-  upc: null;
-  requiresShipping: string;
+  upc?: null;
+  requiresShipping?: string;
   quantity: string;
-  currentQuantity: string;
+  currentQuantity?: string;
   price: string;
-  priceExtension: string;
-  discount: null;
-  discountExtension: null;
-  associatedItems: any[];
-  bundled: string;
-  tax: null;
-  taxable: string;
-  weight: null;
-  vendor: null;
-  imageUrl: null;
-  ecartapiUrl: null;
+  priceExtension?: string;
+  discount?: null;
+  discountExtension?: null;
+  associatedItems?: any[];
+  bundled?: string;
+  tax?: null;
+  taxable?: string;
+  weight?: null;
+  vendor?: null;
+  imageUrl?: null;
+  ecartapiUrl?: null;
 }
 
 export interface Fulfillment {
