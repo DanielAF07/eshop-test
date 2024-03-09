@@ -28,6 +28,7 @@ export const useOrdersStore = create<OrderStore>()((set) => ({
     set({ orders: response.data.orders })
   },
   getOrder: async (id: string) => {
+    set({ order: null })
     const response = await apiClient.get(`/orders/${id}`)
     set({ order: response.data.order })
   },
