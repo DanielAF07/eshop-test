@@ -1,4 +1,5 @@
 import Title from '@/components/common/Title'
+import AddProductModal from '@/components/modals/AddProductModal'
 import { OrderTable } from '@/components/tables/OrderTable'
 import { Button } from '@/components/ui/button'
 import { apiClient } from '@/config/axiosClient'
@@ -16,11 +17,11 @@ const getOrder = async (id: string | string[] | undefined) => {
 const OrderTableView = () => {
   const router = useRouter()
   const { id } = router.query
-
   const { data: order, error } = useQuery<Order, Error>({
     queryKey: ['order', id],
     queryFn: () => getOrder(id)
   })
+
   return (
     <main className='container flex flex-col gap-12 mt-12'>
       <div>
@@ -29,6 +30,9 @@ const OrderTableView = () => {
         </Button>
       </div>
       <Title>Orden {order?.number || ''}</Title>
+      <div className='flex justify-end'>
+        <AddProductModal />
+      </div>
       {order && <OrderTable order={order} />}
     </main>
   )
