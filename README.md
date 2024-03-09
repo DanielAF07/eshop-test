@@ -3,6 +3,8 @@
 ### Description
 A simple web app that allow users to view orders, add items to them and pay.
 
+Deployed at [https://eshop-test-kappa.vercel.app](https://eshop-test-kappa.vercel.app)
+
 ### Getting Started
 Run the development server:
 
