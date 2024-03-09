@@ -12,20 +12,17 @@ import { Label } from '../ui/label'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { toast } from 'sonner'
 import { useState } from 'react'
-
-interface IForm {
-  sku: string
-  name: string
-  price: number
-  quantity: number
-}
+import { useOrdersStore } from '@/stores/OrdersStore'
+import { Item } from '@/interfaces/Order'
 
 const AddProductModal = () => {
   const [open, setOpen] = useState(false)
-  const { register, handleSubmit, formState: { errors } } = useForm<IForm>()
+  const addProduct = useOrdersStore(state => state.addProduct)
+  const { register, handleSubmit, formState: { errors } } = useForm<Item>()
 
-  const onSubmit: SubmitHandler<IForm> = (data) => {
+  const onSubmit: SubmitHandler<Item> = (data) => {
     toast.success('Product added successfully')
+    addProduct(data as Item)
     setOpen(false)
   }
 
