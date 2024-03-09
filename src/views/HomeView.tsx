@@ -1,11 +1,14 @@
-import { OrdersTable } from '@/components/tables/OrdersTable'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 const HomeView = () => {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.replace('/orders')
+  }, [])
   return (
-    <div className='flex flex-col gap-12'>
-      <h1 className='text-4xl font-bold '>Orden de compra</h1>
-      <OrdersTable />
-    </div>
+    <div className='flex flex-col gap-12' />
   )
 }
 export default HomeView
